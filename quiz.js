@@ -52,24 +52,26 @@ const quiz = function (quizArray) {
   let score = 0;
   const quizData = shuffle(quizArray);
 
-  return function () {
-    for (let quesNum = 0; quesNum < quizData.length; quesNum++) {
-      const questionDetails = quizData[quesNum];
-      displayQuestion(questionDetails);
-      const answer = validateInput();
-      const isCorrectAnswer = answer === questionDetails[2];
+  return function (quesNum) {
+    const questionDetails = quizData[quesNum];
+    displayQuestion(questionDetails);
+    const answer = validateInput();
+    const isCorrectAnswer = answer === questionDetails[2];
 
-      if (isCorrectAnswer) {
-        score++;
-      }
-
-      displayResult(isCorrectAnswer);
-      displayScore(score);
+    if (isCorrectAnswer) {
+      score++;
     }
 
-    displayFinalScore(score, quizData.length);
+    displayResult(isCorrectAnswer);
+    displayScore(score);
+
+    if (quesNum === quizData.length - 1) {
+      displayFinalScore(score, quizData.length);
+    }
   }
 }
 
 const startQuiz = quiz(quesAndAnswers);
-startQuiz();
+for (let quesNum = 0; quesNum < quesAndAnswers.length; quesNum++) {
+  startQuiz(quesNum);
+}
